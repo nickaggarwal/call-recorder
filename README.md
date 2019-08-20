@@ -1,5 +1,5 @@
 # cj-app
-Angular 6 SPA
+Django 1.11 - Python 2.7 
 
 IMPORTANT NOTES:
 
