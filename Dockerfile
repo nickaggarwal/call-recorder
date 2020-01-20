@@ -5,7 +5,7 @@ EXPOSE 8080
 # Install Workspace for Python 
 
 RUN apt-get update \
-    && apt-get install --assume-yes build-essential git curl wget unzip
+    && apt-get install --assume-yes build-essential git curl 
 
 RUN apt-get install --assume-yes npm
 
@@ -15,13 +15,11 @@ RUN mkdir -p /var/theia
 
 WORKDIR /var/theia
 
-RUN wget https://codejudge-theia.s3.amazonaws.com/Archive.zip
+ADD ./theia/package.json .
 
-RUN unzip Archive.zip
+RUN yarn 
 
-RUN rm Archive.zip
-
-ADD ./theia /var/theia
+RUN yarn theia build
 
 # End Install for Workspace 
 
