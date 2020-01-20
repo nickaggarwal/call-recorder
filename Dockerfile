@@ -5,7 +5,7 @@ EXPOSE 8080
 # Install Workspace for Python 
 
 RUN apt-get update \
-    && apt-get install --assume-yes build-essential git curl wget
+    && apt-get install --assume-yes build-essential git curl wget unzip
 
 RUN apt-get install --assume-yes npm
 
