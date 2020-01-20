@@ -19,7 +19,7 @@ RUN wget https://codejudge-theia.s3.amazonaws.com/Archive.zip
 
 RUN unzip Archive.zip
 
-RUM rm Archive.zip
+RUN rm Archive.zip
 
 # End Install for Workspace 
 
