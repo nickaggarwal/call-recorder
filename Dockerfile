@@ -2,7 +2,7 @@ FROM python:3.5-slim
 
 EXPOSE 8080
 
-#Install Workspace for Python 
+# Install Workspace for Python 
 
 RUN apt-get update \
     && apt-get install --assume-yes build-essential git curl 
@@ -15,11 +15,13 @@ RUN mkdir -p /var/theia
 
 WORKDIR /var/theia
 
-ADD ./theia/package.json .
+RUN wget https://codejudge-theia.s3.amazonaws.com/Archive.zip
 
-RUN yarn 
+RUN unzip Archive.zip
 
-RUN yarn theia build
+RUM rm Archive.zip
+
+# End Install for Workspace 
 
 RUN mkdir -p /var/app
 
@@ -33,4 +35,6 @@ ADD . .
 
 RUN python manage.py migrate
 
-CMD python manage.py runserver 0.0.0.0:8080
+WORKDIR /var/theia
+
+CMD yarn theia start --hostname 0.0.0.0 --port 3005
