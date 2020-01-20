@@ -37,4 +37,4 @@ RUN python manage.py migrate
 
 WORKDIR /var/theia
 
-CMD yarn theia start --hostname 0.0.0.0 --port 3005
+CMD python manage.py runserver 0.0.0.0:8080
