@@ -2,24 +2,29 @@ FROM python:3.5-slim
 
 EXPOSE 8080
 
-# Install Workspace for Python 
+ARG workspace="none"
 
 RUN apt-get update \
-    && apt-get install --assume-yes build-essential git curl 
+    && apt-get install --assume-yes wget
 
-RUN apt-get install --assume-yes npm
+# Install Workspace for Python 
 
-RUN npm install -g yarn
+RUN if [ $workspace = "theia" ] ; then \
+	wget https://codejudge-starter-repo-artifacts.s3.ap-south-1.amazonaws.com/theia/pre-build.sh \
+    && chmod 775 ./pre-build.sh && sh pre-build.sh ; fi
 
-RUN mkdir -p /var/theia
+RUN mkdir -p /var/theia 
 
 WORKDIR /var/theia
 
-ADD ./theia/package.json .
+RUN if [ $workspace = "theia" ] ; then \
+	wget https://codejudge-starter-repo-artifacts.s3.ap-south-1.amazonaws.com/theia/python/package.json \
+	&& chmod 775 ./package.json ; fi
 
-RUN yarn 
 
-RUN yarn theia build
+RUN if [ $workspace = "theia" ] ; then \
+	wget https://codejudge-starter-repo-artifacts.s3.ap-south-1.amazonaws.com/theia/build.sh \
+    && chmod 775 ./build.sh && sh build.sh ; fi
 
 # End Install for Workspace 
 
@@ -29,12 +34,14 @@ WORKDIR /var/app
 
 ADD requirements.txt /var/app
 
-RUN pip install -r requirements.txt
+# Build the app
+RUN wget https://codejudge-starter-repo-artifacts.s3.ap-south-1.amazonaws.com/backend-project/python/build.sh
+RUN chmod 775 ./build.sh
+RUN sh build.sh
 
 ADD . .
 
-RUN python manage.py migrate
-
-WORKDIR /var/theia
-
-CMD python manage.py runserver 0.0.0.0:8080
+# Run the app
+RUN wget https://codejudge-starter-repo-artifacts.s3.ap-south-1.amazonaws.com/backend-project/python/run.sh
+RUN chmod 775 ./run.sh
+CMD sh run.sh
