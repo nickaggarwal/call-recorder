@@ -5,13 +5,15 @@ EXPOSE 8080
 ARG workspace="none"
 
 RUN apt-get update \
-    && apt-get install --assume-yes wget bash-completion
+    && apt-get install --assume-yes wget bash-completion unzip
 
 # Install Workspace for Python 
 
 RUN if [ $workspace = "theia" ] ; then \
 	wget https://codejudge-starter-repo-artifacts.s3.ap-south-1.amazonaws.com/theia/pre-build.sh \
     && chmod 775 ./pre-build.sh && sh pre-build.sh ; fi
+
+WORKDIR /var/
 
 RUN if [ $workspace = "theia" ] ; then \
 	wget https://codejudge-starter-repo-artifacts.s3.ap-south-1.amazonaws.com/theia/build.sh \
