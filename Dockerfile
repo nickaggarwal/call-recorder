@@ -15,14 +15,17 @@ RUN if [ $workspace = "theia" ] ; then \
 
 WORKDIR /var/
 
+
 RUN if [ $workspace = "theia" ] ; then \
 	wget https://codejudge-starter-repo-artifacts.s3.ap-south-1.amazonaws.com/theia/build.sh \
     && chmod 775 ./build.sh && sh build.sh ; fi
 
+# Get RUN Script
+
 WORKDIR /var/theia/
 
 RUN if [ $workspace = "theia" ] ; then \
-	wget https://codejudge-starter-repo-artifacts.s3.ap-south-1.amazonaws.com/theia/build.sh \
+	wget https://codejudge-starter-repo-artifacts.s3.ap-south-1.amazonaws.com/theia/run.sh \
     && chmod 775 ./run.sh ; fi
 
 # End Install for Workspace 
