@@ -21,7 +21,4 @@ class RecordCallViewset(viewsets.ModelViewSet):
     filter_backends = (filters.DjangoFilterBackend, )
     ordering_fields = '__all__'
 
-    def perform_create(self, serializer):
-        serializer.save(user_id=self.request.user.id)
-
 
